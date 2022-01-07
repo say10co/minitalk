@@ -6,19 +6,21 @@
 #    By: adriouic <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/07 17:42:24 by adriouic          #+#    #+#              #
-#    Updated: 2022/01/07 18:23:57 by adriouic         ###   ########.fr        #
+#    Updated: 2022/01/07 18:33:35 by adriouic         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 
 FLAGS = -Wall -Werror -Wextra
 
-all: client server
+NAME = client
+
+all: $(NAME) server
 
 %.o: %.c
 	cc $(FLAGS) -c $<  -o ${<:.c=.o}
 
-client: client.o utils.o
+$(NAME): client.o utils.o
 	cc client.o utils.o -o client
 
 server: server.o utils.o
