@@ -1,36 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   includes.h                                         :+:      :+:    :+:   */
+/*   ft_memmove.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: adriouic <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/07 15:43:15 by adriouic          #+#    #+#             */
-/*   Updated: 2022/02/01 19:49:58 by adriouic         ###   ########.fr       */
+/*   Created: 2021/11/06 14:08:22 by adriouic          #+#    #+#             */
+/*   Updated: 2021/11/11 16:35:54 by adriouic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+#include "libft.h"
 
-#ifndef INCLUDES_H
-# define INCLUDES_H
-
-# include <signal.h>
-# include <stdlib.h>
-# include <unistd.h>
-# include <stdio.h>
-# include "libft/libft.h"
-
-typedef struct s_vars
+void	*ft_memmove(void *dst, const void *src, size_t len)
 {
-	int	shifts;
-	int	ascci;
-}t_vars;
+	char	*t_dst;
+	char	*t_src;
+	int		leader;
 
-t_vars	g_vars;
-
-int		pow_(int a, int b);
-void	ft_putnbr(unsigned int n);
-void	__init__vars(t_vars *strct);
-void	end_status(int n);
-void	signal_handler(int sig, siginfo_t *info, void *uncontext);
-
-#endif
+	t_dst = (char *)dst;
+	t_src = (char *)src;
+	if (!dst && !src)
+		return (dst);
+	leader = 1;
+	if (t_dst > t_src)
+	{
+		t_src = t_src + len - 1;
+		t_dst = t_dst + len - 1;
+		leader = -1;
+	}
+	while (len--)
+	{
+		*t_dst = *t_src;
+		t_src += leader;
+		t_dst += leader;
+	}
+	return (dst);
+}

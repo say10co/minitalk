@@ -1,28 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   server.c                                           :+:      :+:    :+:   */
+/*   ft_strlcpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: adriouic <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/07 15:46:29 by adriouic          #+#    #+#             */
-/*   Updated: 2022/02/01 20:11:35 by adriouic         ###   ########.fr       */
+/*   Created: 2021/11/03 13:31:11 by adriouic          #+#    #+#             */
+/*   Updated: 2021/11/10 21:36:54 by adriouic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "includes.h"
+#include "libft.h"
 
-int	main(void)
+size_t	ft_strlcpy(char *dst, const char *src, size_t size)
 {
-	struct sigaction	act;
+	size_t	index;
+	int		len;
 
-	__init__vars(&g_vars);
-	ft_putnbr_fd(getpid(), 1);
-	sigemptyset(&act.sa_mask);
-	act.sa_flags = SA_SIGINFO;
-	act.sa_sigaction = signal_handler;
-	sigaction(SIGUSR1, &act, NULL);
-	sigaction(SIGUSR2, &act, NULL);
-	while (1)
-		;
-	return (0);
+	len = ft_strlen(src);
+	if (size == 0)
+		return (len);
+	index = 0;
+	while (index < size - 1 && src[index] != '\0')
+	{
+		dst[index] = src[index];
+		index++;
+	}
+	dst[index] = '\0';
+	return (len);
 }

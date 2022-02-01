@@ -1,47 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   client.c                                           :+:      :+:    :+:   */
+/*   ft_strncmp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: adriouic <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/07 15:47:01 by adriouic          #+#    #+#             */
-/*   Updated: 2022/02/01 21:07:04 by adriouic         ###   ########.fr       */
+/*   Created: 2021/11/02 16:47:10 by adriouic          #+#    #+#             */
+/*   Updated: 2021/11/10 23:39:42 by adriouic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+#include "libft.h"
 
-#include "includes.h"
-
-void	send_signals(unsigned int n, int pid)
+int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
-	int	i;
+	size_t			index;
+	unsigned char	*ts1;	
+	unsigned char	*ts2;
 
-	i = 0;
-	while (i != 8)
+	ts1 = (unsigned char *)s1;
+	ts2 = (unsigned char *)s2;
+	index = 0;
+	if (n == 0)
+		return (0);
+	while (ts1[index] != '\0' && ts2[index] != '\0' && index < n - 1)
 	{
-		if (n % 2)
-			kill(pid, SIGUSR1);
+		if (ts1[index] == ts2[index])
+			index++;
 		else
-			kill(pid, SIGUSR2);
-		n /= 2;
-		i++;
-		usleep(100);
+			return (ts1[index] - ts2[index]);
 	}
-}
-
-int	main(int ac, char **av)
-{
-	int	i;
-	int	pid;
-
-	if (ac == 3)
-	{
-		i = 0;
-		pid = ft_atoi(av[1]);
-		signal(SIGUSR1, end_status);
-		while (av[2][i])
-			send_signals(av[2][i++], pid);
-		send_signals(0, pid);
-	}
-	return (0);
+	return (ts1[index] - ts2[index]);
 }

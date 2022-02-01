@@ -1,28 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   server.c                                           :+:      :+:    :+:   */
+/*   ft_lstclear.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: adriouic <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/07 15:46:29 by adriouic          #+#    #+#             */
-/*   Updated: 2022/02/01 20:11:35 by adriouic         ###   ########.fr       */
+/*   Created: 2021/11/05 16:22:56 by adriouic          #+#    #+#             */
+/*   Updated: 2021/11/08 18:22:33 by adriouic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "includes.h"
+#include "libft.h"
 
-int	main(void)
+void	ft_lstclear(t_list **lst, void (*del)(void*))
 {
-	struct sigaction	act;
+	t_list	*next_node;
+	t_list	*curr;
 
-	__init__vars(&g_vars);
-	ft_putnbr_fd(getpid(), 1);
-	sigemptyset(&act.sa_mask);
-	act.sa_flags = SA_SIGINFO;
-	act.sa_sigaction = signal_handler;
-	sigaction(SIGUSR1, &act, NULL);
-	sigaction(SIGUSR2, &act, NULL);
-	while (1)
-		;
-	return (0);
+	curr = (*lst)->next;
+	ft_lstdelone(*lst, del);
+	*lst = NULL;
+	while (curr)
+	{
+		next_node = curr->next;
+		ft_lstdelone(curr, del);
+		curr = next_node;
+	}
 }

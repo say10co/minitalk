@@ -6,87 +6,50 @@
 /*   By: adriouic <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/07 15:41:36 by adriouic          #+#    #+#             */
-/*   Updated: 2022/01/07 17:24:45 by adriouic         ###   ########.fr       */
+/*   Updated: 2022/02/01 21:17:39 by adriouic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "includes.h"
 
-void __init__ops(var *strct)
+void	signal_handler(int sig, siginfo_t *info, void *uncontext)
 {
-    strct->shifts = 0;
-    strct->ascci = 0;
-}
-
-int reset(int bit, struct __siginfo *info)
-{
-    if (bit == 7)
-    {
-
-        if (ops.ascci == 0)
-        {
-            ops.shifts = 0;
+	(void)(uncontext);
+	(void)(info);
+	if (sig == SIGUSR1)
+		g_vars.ascci += pow_(2, g_vars.shifts++);
+	else
+		g_vars.shifts += 1;
+	if (g_vars.shifts == 8)
+	{
+		if (g_vars.ascci == 0)
 			kill(info->si_pid, SIGUSR1);
-            return (1);
-        }
-        else
-        {
-            write(1, (char *)&ops.ascci, 1);
-            ops.shifts = -1;
-            ops.ascci = 0;
-        }
-    }
-    return (0);
+		write(1, (char *)&g_vars.ascci, 1);
+		__init__vars(&g_vars);
+	}
 }
 
-void    do_(int sg, struct __siginfo *info, void *vp)
+int	pow_(int a, int b)
 {
-    (void)sg;
-    (void)vp;
+	int	t;
 
-	ops.ascci += pow_(2, ops.shifts);
-    if(reset(ops.shifts, info))
-   	    return ;
-   	ops.shifts += 1;
-
+	t = a;
+	if (!b)
+		return (1);
+	while (--b)
+		a *= t;
+	return (a);
 }
 
-void    do_1(int sg, struct __siginfo *info, void *vp)
+void	__init__vars(t_vars *strct)
 {
-    (void)sg;
-    (void)vp;
-
-	if (reset(ops.shifts, info))
-		return ;
-    ops.shifts += 1;
+	strct->shifts = 0;
+	strct->ascci = 0;
 }
 
-int pow_(int a, int b)
+void	end_status(int n)
 {
-    int t;
-
-    t = a;
-    if (!b)
-        return (1);
-    while (--b)
-        a *= t;
-    return (a);
-}
-
-void yell_end(int pid)
-{
-    int i;
-    i = 0;
-
-    while (i++ < 8)
-    {
-        kill(pid, SIGUSR2);
-        usleep(100);
-    }
-}
-
-void end_status(int n)
-{
-	(void)n;
+	(void)(n);
 	write(1, "Communication has ended Succedfully!\n", 37);
 	return ;
 }

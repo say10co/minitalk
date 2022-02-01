@@ -1,36 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   includes.h                                         :+:      :+:    :+:   */
+/*   ft_putendl_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: adriouic <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/07 15:43:15 by adriouic          #+#    #+#             */
-/*   Updated: 2022/02/01 19:49:58 by adriouic         ###   ########.fr       */
+/*   Created: 2021/11/06 18:13:03 by adriouic          #+#    #+#             */
+/*   Updated: 2021/11/08 10:11:38 by adriouic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+#include "libft.h"
 
-#ifndef INCLUDES_H
-# define INCLUDES_H
+void	ft_putendl_fd(char *s, int fd)
 
-# include <signal.h>
-# include <stdlib.h>
-# include <unistd.h>
-# include <stdio.h>
-# include "libft/libft.h"
-
-typedef struct s_vars
 {
-	int	shifts;
-	int	ascci;
-}t_vars;
+	int	i;
 
-t_vars	g_vars;
-
-int		pow_(int a, int b);
-void	ft_putnbr(unsigned int n);
-void	__init__vars(t_vars *strct);
-void	end_status(int n);
-void	signal_handler(int sig, siginfo_t *info, void *uncontext);
-
-#endif
+	if (!s)
+		return ;
+	i = 0;
+	while (s[i] && ++i)
+		write(fd, &s[i - 1], 1);
+	write(fd, "\n", 1);
+}

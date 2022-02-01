@@ -1,36 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   includes.h                                         :+:      :+:    :+:   */
+/*   ft_strnstr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: adriouic <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/07 15:43:15 by adriouic          #+#    #+#             */
-/*   Updated: 2022/02/01 19:49:58 by adriouic         ###   ########.fr       */
+/*   Created: 2021/11/03 13:43:11 by adriouic          #+#    #+#             */
+/*   Updated: 2021/11/08 20:45:03 by adriouic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+#include "libft.h"
 
-#ifndef INCLUDES_H
-# define INCLUDES_H
-
-# include <signal.h>
-# include <stdlib.h>
-# include <unistd.h>
-# include <stdio.h>
-# include "libft/libft.h"
-
-typedef struct s_vars
+char	*ft_strnstr(const char *haysack, const char *needle, size_t n)
 {
-	int	shifts;
-	int	ascci;
-}t_vars;
+	int		i;
+	size_t	j;
+	size_t	t;
 
-t_vars	g_vars;
-
-int		pow_(int a, int b);
-void	ft_putnbr(unsigned int n);
-void	__init__vars(t_vars *strct);
-void	end_status(int n);
-void	signal_handler(int sig, siginfo_t *info, void *uncontext);
-
-#endif
+	if (needle[0] == '\0')
+		return ((char *)haysack);
+	j = 0;
+	while (haysack[j] && j < n)
+	{
+		t = j;
+		i = 0;
+		while (haysack[t] && haysack[t] == needle[i] && t < n)
+		{
+			if (needle[i + 1] == '\0')
+				return ((char *)(&haysack[j]));
+			t++;
+			i++;
+		}
+		j++;
+	}
+	return (0);
+}

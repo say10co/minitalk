@@ -1,47 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   client.c                                           :+:      :+:    :+:   */
+/*   ft_strrchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: adriouic <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/07 15:47:01 by adriouic          #+#    #+#             */
-/*   Updated: 2022/02/01 21:07:04 by adriouic         ###   ########.fr       */
+/*   Created: 2021/11/02 16:37:16 by adriouic          #+#    #+#             */
+/*   Updated: 2021/11/08 19:09:35 by adriouic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes.h"
-
-void	send_signals(unsigned int n, int pid)
+char	*ft_strrchr(const char *str, int c)
 {
-	int	i;
+	int		i;
+	char	*s;
+	char	*p;
 
+	s = (char *)(str);
 	i = 0;
-	while (i != 8)
+	p = 0;
+	while (s[i] != '\0')
 	{
-		if (n % 2)
-			kill(pid, SIGUSR1);
-		else
-			kill(pid, SIGUSR2);
-		n /= 2;
+		if (s[i] == (char)c)
+			p = &s[i];
 		i++;
-		usleep(100);
 	}
-}
-
-int	main(int ac, char **av)
-{
-	int	i;
-	int	pid;
-
-	if (ac == 3)
-	{
-		i = 0;
-		pid = ft_atoi(av[1]);
-		signal(SIGUSR1, end_status);
-		while (av[2][i])
-			send_signals(av[2][i++], pid);
-		send_signals(0, pid);
-	}
-	return (0);
+	if ((char)c == s[i])
+		p = &s[i];
+	return (p);
 }

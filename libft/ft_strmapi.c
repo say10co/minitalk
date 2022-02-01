@@ -1,47 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   client.c                                           :+:      :+:    :+:   */
+/*   ft_strmapi.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: adriouic <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/07 15:47:01 by adriouic          #+#    #+#             */
-/*   Updated: 2022/02/01 21:07:04 by adriouic         ###   ########.fr       */
+/*   Created: 2021/11/04 18:31:47 by adriouic          #+#    #+#             */
+/*   Updated: 2021/11/09 13:58:18 by adriouic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+#include "libft.h"
 
-#include "includes.h"
-
-void	send_signals(unsigned int n, int pid)
+char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 {
-	int	i;
+	int		s_length;
+	int		i;
+	char	*result;
 
+	if (!s)
+		return (0);
+	s_length = ft_strlen(s);
+	result = (char *)malloc(1 + s_length * sizeof(char));
+	if (!result)
+		return (0);
 	i = 0;
-	while (i != 8)
+	while (i < s_length)
 	{
-		if (n % 2)
-			kill(pid, SIGUSR1);
-		else
-			kill(pid, SIGUSR2);
-		n /= 2;
+		result[i] = f(i, s[i]);
 		i++;
-		usleep(100);
 	}
-}
-
-int	main(int ac, char **av)
-{
-	int	i;
-	int	pid;
-
-	if (ac == 3)
-	{
-		i = 0;
-		pid = ft_atoi(av[1]);
-		signal(SIGUSR1, end_status);
-		while (av[2][i])
-			send_signals(av[2][i++], pid);
-		send_signals(0, pid);
-	}
-	return (0);
+	result[i] = '\0';
+	return (result);
 }

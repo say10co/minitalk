@@ -1,47 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   client.c                                           :+:      :+:    :+:   */
+/*   ft_strlcat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: adriouic <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/07 15:47:01 by adriouic          #+#    #+#             */
-/*   Updated: 2022/02/01 21:07:04 by adriouic         ###   ########.fr       */
+/*   Created: 2021/11/03 12:21:32 by adriouic          #+#    #+#             */
+/*   Updated: 2021/11/10 21:56:49 by adriouic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+#include "libft.h"
 
-#include "includes.h"
-
-void	send_signals(unsigned int n, int pid)
+size_t	ft_strlcat(char *dest, const char *src, size_t size)
 {
-	int	i;
+	size_t	d_len;
+	size_t	s_len;
+	size_t	index;
 
-	i = 0;
-	while (i != 8)
+	d_len = ft_strlen(dest);
+	s_len = ft_strlen(src);
+	index = d_len;
+	if (size == 0)
+		return (s_len);
+	while (index < size - 1 && src[index - d_len] != '\0')
 	{
-		if (n % 2)
-			kill(pid, SIGUSR1);
-		else
-			kill(pid, SIGUSR2);
-		n /= 2;
-		i++;
-		usleep(100);
+		dest[index] = src[index - d_len];
+		index++;
 	}
-}
-
-int	main(int ac, char **av)
-{
-	int	i;
-	int	pid;
-
-	if (ac == 3)
+	if (size < index)
 	{
-		i = 0;
-		pid = ft_atoi(av[1]);
-		signal(SIGUSR1, end_status);
-		while (av[2][i])
-			send_signals(av[2][i++], pid);
-		send_signals(0, pid);
+		return (size + s_len);
 	}
-	return (0);
+	dest[index] = '\0';
+	return (d_len + s_len);
 }
